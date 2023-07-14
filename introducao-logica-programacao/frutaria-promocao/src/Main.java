@@ -13,10 +13,6 @@ public class Main {
         return precoFinalPorFruta;
     }
 
-    public static double valorFinalCompra(){
-        return 0.0;
-    }
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Fruta fruta = new Fruta();
