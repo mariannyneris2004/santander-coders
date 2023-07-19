@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -26,7 +28,8 @@ public class Solution {
         percentuais[0] = (input[1] / input[0]) * 100.00;
         percentuais[1] = (input[2] / input[0]) * 100.00;
 
-        percentuais[0] = formatacao(percentuais[0]);
+        percentuais[0] = new BigDecimal((input[1] / input[0]) * 100.00).setScale(3, RoundingMode.DOWN).setScale(2, RoundingMode.HALF_DOWN).doubleValue();
+        //percentuais[0] = formatacao(percentuais[0]);
         percentuais[1] = formatacao(percentuais[1]);
 
         return percentuais;
