@@ -54,9 +54,7 @@ public class Main {
 
         porcentagemDistribuidor = valorDistribuidor * 100;
         porcentagemImposto = valorImposto * 100;
-
-        System.out.println(porcentagemImposto + " e " + porcentagemDistribuidor);
-
+        
         resultado[0] = arredondar(porcentagemDistribuidor);
         resultado[1] = arredondar(porcentagemImposto);
 
