@@ -54,7 +54,7 @@ public class Main {
 
         porcentagemDistribuidor = valorDistribuidor * 100;
         porcentagemImposto = valorImposto * 100;
-        
+
         resultado[0] = arredondar(porcentagemDistribuidor);
         resultado[1] = arredondar(porcentagemImposto);
 
