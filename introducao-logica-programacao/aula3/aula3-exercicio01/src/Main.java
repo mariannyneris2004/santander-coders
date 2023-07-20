@@ -1,43 +1,53 @@
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Locale.setDefault(new Locale("en", "US"));
 
-        double[] lados = {9, 7, 14};
-        double area;
+        Scanner scanner = new Scanner(System.in);
 
-        area = formulaArea(lados);
+        System.out.println("Escreva 3 lados para um triângulo: ");
+        double[] ladosTriangulo = new double[3];
+        for (int i = 0; i < ladosTriangulo.length; i++) {
+            ladosTriangulo[i] = scanner.nextDouble();
+        }
 
-        System.out.println(area);
+        try {
+            double area = formulaArea(ladosTriangulo);
+            System.out.println("A área do Triângulo é de " + area);
+        } catch (LadosInvalidosException e){
+            System.out.println(e.getMessage());
+        }
+
+        scanner.close();
     }
 
     public static double formulaArea(double[] lados){
         double a = lados[0];
         double b = lados[1];
         double c = lados[2];
-        double area, p;
 
-        p = formulaDeP(lados);
+        validacaoLados(lados);
 
-        area = Math.sqrt(p * (p - a) * (p - b) * (p - c));
-
+        double p = (a + b + c) / 2;
+        double area = Math.sqrt(p * (p - a) * (p - b) * (p - c));
         area = arredondar(area);
 
         return area;
     }
 
-    public static double formulaDeP (double[] lados){
+    public static boolean validacaoLados (double[] lados) throws LadosInvalidosException{
         double a = lados[0];
         double b = lados[1];
         double c = lados[2];
-        double p;
 
-        p = (a + b + c) / 2;
-
-        return p;
+        if (a + b > c && b + c > a && a + c > b){
+            return true;
+        } else {
+            throw new LadosInvalidosException("Lados Inválidos");
+        }
     }
 
     public static double arredondar(double numero) {
