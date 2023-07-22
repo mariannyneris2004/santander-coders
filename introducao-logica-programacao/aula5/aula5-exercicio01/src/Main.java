@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-//
+//Exercício com validação se a fruta pertence a promoção ou não.
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -14,7 +14,7 @@ public class Main {
         quantidade = scanner.nextInt();
 
         try {
-            precoFinal = calculoPromocao(quantidade);
+            precoFinal = calculoPromocao(fruta, quantidade);
             System.out.println("O preço final é de R$" + precoFinal);
         } catch (NumeroInvalidoException e){
             System.out.println(e.getMessage());
@@ -23,30 +23,42 @@ public class Main {
         scanner.close();
     }
 
-    public static double calculoPromocao(int quantidade) throws NumeroInvalidoException{
+    public static double calculoPromocao(String fruta, int quantidade) throws NumeroInvalidoException{
         double precoFinal, precoPorUnidade;
+        boolean temNaPromocao = pertenceAPromocao(fruta);
 
         validarValor(quantidade);
-        if (quantidade > 10){
-            precoPorUnidade = 1.25;
+        if (temNaPromocao == true){
+            if (quantidade > 10){
+                precoPorUnidade = 1.25;
+            } else {
+                precoPorUnidade = 1.45;
+            }
         } else {
             precoPorUnidade = 1.45;
+            System.out.println(fruta + " não pertence à promoção!");
         }
 
         precoFinal = precoPorUnidade * quantidade;
+
         return precoFinal;
     }
 
-    /*public static boolean pertenceAPromocao(String fruta){
+    public static boolean pertenceAPromocao(String fruta){
         String[] frutasDaPromocao = {"Pera",
                 "Laranja",
                 "Maçã",
                 "Tomate",
                 "Caqui"};
 
+        for (int i = 0; i < frutasDaPromocao.length; i++) {
+            if (frutasDaPromocao[i].toUpperCase().equals(fruta.toUpperCase())){
+                return true;
+            }
+        }
 
-        return true;
-    }*/
+        return false;
+    }
 
     public static void validarValor(int quantidade) throws NumeroInvalidoException{
         if(quantidade == 0){
