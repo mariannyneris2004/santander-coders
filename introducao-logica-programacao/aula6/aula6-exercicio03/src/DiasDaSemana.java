@@ -1,26 +1,28 @@
 public enum DiasDaSemana {
-    DOMINGO("Domingo"),
-    SEGUNDA("Segunda-feira"),
-    TERCA("Terça-feira"),
-    QUARTA("Quarta-feira"),
-    QUINTA("Quinta-feira"),
-    SEXTA("Sexta-feira"),
-    SABADO("Sábado");
+    DOMINGO(new String[]{"Domingo", "d", "dom"}),
+    SEGUNDA(new String[]{"Segunda-feira","Segunda", "seg"}),
+    TERCA(new String[]{"Terça-feira","Terça", "t", "ter"}),
+    QUARTA(new String[]{"Quarta-feira","Quarta", "qua"}),
+    QUINTA(new String[]{"Quinta-feira","Quinta", "qui"}),
+    SEXTA(new String[]{"Sexta-feira","Sexta", "sex"}),
+    SABADO(new String[]{"Sábado", "s", "sab"});
 
-    final String nome;
+    final String[] nomes;
 
-    DiasDaSemana(String nome) {
-        this.nome = nome;
+    DiasDaSemana(String[] nomes) {
+        this.nomes = nomes;
     }
 
-    public String getNome(){
-        return this.nome;
+    public String[] getNomes(){
+        return this.nomes;
     }
 
     public static DiasDaSemana stringParaEnum(String nome) {
         for (DiasDaSemana dia : DiasDaSemana.values()) {
-            if (dia.getNome().equalsIgnoreCase(nome)) {
-                return dia;
+            for (String nomeDia : dia.getNomes()) {
+                if (nomeDia.equalsIgnoreCase(nome)) {
+                    return dia;
+                }
             }
         }
         throw new IllegalArgumentException("Dia inválido!");
