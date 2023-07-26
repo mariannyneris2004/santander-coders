@@ -17,23 +17,12 @@ public enum DiasDaSemana {
         return this.nome;
     }
 
-    public static DiasDaSemana getDiaDaSemana(String nome){
-        switch (nome){
-            case("Domingo"):
-                return DiasDaSemana.DOMINGO;
-            case("Segunda-feira"):
-                return DiasDaSemana.SEGUNDA;
-            case("Terça-feira"):
-                return DiasDaSemana.TERCA;
-            case("Quarta-feira"):
-                return DiasDaSemana.QUARTA;
-            case("Quinta-feira"):
-                return DiasDaSemana.QUINTA;
-            case("Sexta-feira"):
-                return DiasDaSemana.SEXTA;
-            case("Sábado"):
-                return DiasDaSemana.SABADO;
+    public static DiasDaSemana stringParaEnum(String nome) {
+        for (DiasDaSemana dia : DiasDaSemana.values()) {
+            if (dia.getNome().equalsIgnoreCase(nome)) {
+                return dia;
+            }
         }
-        return null;
+        throw new IllegalArgumentException("Dia inválido!");
     }
 }

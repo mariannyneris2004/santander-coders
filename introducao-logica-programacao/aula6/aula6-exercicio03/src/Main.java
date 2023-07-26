@@ -12,16 +12,17 @@ public class Main {
         dia = scanner.next();
 
         try {
-            diasDaSemana = diaDaSemana(dia);
+            diasDaSemana = diaDaSemana(dia.toUpperCase());
             System.out.println(diasDaSemana);
         } catch (IllegalArgumentException e){
-            System.out.println("Dia inválido!");
+            System.out.println(e.getMessage());
         }
+
         scanner.close();
     }
 
     public static DiasDaSemana diaDaSemana(String nome){
-        DiasDaSemana dia = DiasDaSemana.getDiaDaSemana(nome);
+        DiasDaSemana dia = DiasDaSemana.stringParaEnum(nome);
         return dia;
     }
 }
