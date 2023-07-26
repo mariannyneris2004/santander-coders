@@ -9,7 +9,7 @@ public class Main {
         DiasDaSemana diasDaSemana;
 
         System.out.println("Escreva um dia da semana");
-        dia = scanner.next();
+        dia = scanner.nextLine();
 
         try {
             diasDaSemana = diaDaSemana(dia.toUpperCase());

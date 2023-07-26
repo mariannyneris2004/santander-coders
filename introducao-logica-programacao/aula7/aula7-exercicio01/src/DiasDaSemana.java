@@ -1,11 +1,11 @@
 public enum DiasDaSemana {
     DOMINGO(new String[]{"Domingo", "d", "dom"}),
-    SEGUNDA(new String[]{"Segunda-feira","Segunda", "seg"}),
-    TERCA(new String[]{"Terça-feira","Terça", "t", "ter"}),
-    QUARTA(new String[]{"Quarta-feira","Quarta", "qua"}),
-    QUINTA(new String[]{"Quinta-feira","Quinta", "qui"}),
-    SEXTA(new String[]{"Sexta-feira","Sexta", "sex"}),
-    SABADO(new String[]{"Sábado", "s", "sab"});
+    SEGUNDA(new String[]{"Segunda-feira","Segunda feira","Segunda", "seg"}),
+    TERCA(new String[]{"Terça-feira", "Terça feira", "Terça", "t", "ter"}),
+    QUARTA(new String[]{"Quarta-feira", "Quarta feira", "Quarta", "qua"}),
+    QUINTA(new String[]{"Quinta-feira", "Quinta feira", "Quinta", "qui"}),
+    SEXTA(new String[]{"Sexta-feira", "Sexta feira", "Sexta", "sex"}),
+    SABADO(new String[]{"Sábado", "Sabado", "s", "sab", "sáb"});
 
     final String[] nomes;
 
