@@ -3,7 +3,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Banco {
-    Scanner scanner = new Scanner(System.in);
     ArrayList<Conta> contas;
 
     public Banco(){}
@@ -25,11 +24,11 @@ public class Banco {
 
         Cliente cliente = new Cliente();
         System.out.println("Informe o nome: ");
-        cliente.setNome(scanner.nextLine());
+        cliente.setNome(Entrada.getStringNextLine());
         System.out.println("Informe o CPF: ");
-        cliente.setCpf(scanner.next());
+        cliente.setCpf(Entrada.getStringNext());
         System.out.println("Informe o email: ");
-        cliente.setEmail(scanner.next());
+        cliente.setEmail(Entrada.getStringNext());
 
         Conta conta = new Conta(cliente, gerador.nextInt(100000));
 
@@ -40,7 +39,7 @@ public class Banco {
 
     public Conta buscarConta() throws OperacoesException{
         System.out.println("Escreva o número da conta: ");
-        int contaABuscar = scanner.nextInt();
+        int contaABuscar = Entrada.getInt();
         for (Conta conta : getContas()) {
             if (conta.getNumeroDaConta() == contaABuscar){
                 return conta;
@@ -49,10 +48,21 @@ public class Banco {
         throw new OperacoesException("Conta não encontrada.");
     }
 
+    public Cliente buscarCliente() throws OperacoesException{
+        System.out.println("Escreva o número do cpf: ");
+        String clienteABuscar = Entrada.getStringNext();
+        for (Conta conta : getContas()) {
+            if (conta.getCliente().getCpf().equals(clienteABuscar)){
+                return conta.getCliente();
+            }
+        }
+        throw new OperacoesException("Cliente não encontrado.");
+    }
+
     public void depositar(){
         Conta contaABuscar = buscarConta();
         System.out.println("Escreva a quantia a ser depositada: ");
-        double quantiaADepositar = scanner.nextDouble();
+        double quantiaADepositar = Entrada.getDouble();
         contaABuscar.depositar(quantiaADepositar);
         System.out.println(contaABuscar);
     }
@@ -60,7 +70,7 @@ public class Banco {
     public void sacar(){
         Conta contaABuscar = buscarConta();
         System.out.println("Escreva a quantia a ser depositada: ");
-        double quantiaASacar = scanner.nextDouble();
+        double quantiaASacar = Entrada.getDouble();
         contaABuscar.sacar(quantiaASacar);
         System.out.println(contaABuscar);
     }

@@ -23,28 +23,12 @@ public class Conta {
         }
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public int getNumeroDaConta() {
         return numeroDaConta;
     }
 
-    public void setNumeroDaConta(int numeroDaConta) {
-        this.numeroDaConta = numeroDaConta;
-    }
-
-    public double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
+    public Cliente getCliente() {
+        return cliente;
     }
 
     @Override
@@ -61,8 +45,8 @@ public class Conta {
 
     @Override
     public String toString() {
-        return /*"-----------------------------------------" +
-                "Dados do Conta\n" +*/
+        return "-----------------------------------------\n" +
+                "Dados do Conta\n" +
                 "-----------------------------------------\n" +
                 "Cliente: " + cliente.getNome() + "\n" +
                 "Número da conta: " + numeroDaConta + "\n" +

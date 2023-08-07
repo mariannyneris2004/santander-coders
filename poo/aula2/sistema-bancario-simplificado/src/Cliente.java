@@ -17,20 +17,16 @@ public class Cliente {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getEmail() {
-        return email;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public void setEmail(String email) {
@@ -47,9 +43,9 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return /*"-----------------------------------------" +
-                "Dados do Cliente\n" +*/
-                "-----------------------------------------" +
+        return "-----------------------------------------\n" +
+                "Dados do Cliente\n" +
+                "-----------------------------------------\n" +
                 "Nome: " + nome + "\n" +
                 "CPF: " + cpf + "\n" +
                 "Email: " + email + "\n" +

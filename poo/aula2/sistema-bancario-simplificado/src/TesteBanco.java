@@ -11,7 +11,7 @@ public class TesteBanco {
 
         do {
             System.out.println("Menu de operações:\n1) Criar conta\n2) Depositar\n3) Sacar\n4) Consultar dados " +
-                    "da conta\n0) Encerrar atendimento");
+                    "da conta\n5) Consultar dados do cliente\n0) Encerrar atendimento");
             System.out.println("O que deseja?");
             operacoes = scanner.nextInt();
 
@@ -42,8 +42,18 @@ public class TesteBanco {
                         System.out.println(e.getMessage());
                     }
                     break;
-                default:
+                case 5:
+                    try{
+                        System.out.println(banco.buscarCliente());
+                    } catch (OperacoesException e){
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 0:
                     System.out.println("Obrigado pela preferência!");
+                    break;
+                default:
+                    System.out.println("Operação inválida!");
                     break;
             }
         } while (operacoes != 0);
