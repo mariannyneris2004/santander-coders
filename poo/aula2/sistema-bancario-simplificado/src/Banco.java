@@ -48,6 +48,13 @@ public class Banco {
         throw new OperacoesException("Conta não encontrada.");
     }
 
+    public void listarContas() throws OperacoesException{
+        for (Conta conta : getContas()) {
+            System.out.println(conta);
+        }
+        throw new OperacoesException("Não há contas cadastradas.");
+    }
+
     public Cliente buscarCliente() throws OperacoesException{
         System.out.println("Escreva o número do cpf: ");
         String clienteABuscar = Entrada.getStringNext();

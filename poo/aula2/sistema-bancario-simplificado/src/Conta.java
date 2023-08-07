@@ -46,7 +46,7 @@ public class Conta {
     @Override
     public String toString() {
         return "-----------------------------------------\n" +
-                "Dados do Conta\n" +
+                "Dados da Conta\n" +
                 "-----------------------------------------\n" +
                 "Cliente: " + cliente.getNome() + "\n" +
                 "Número da conta: " + numeroDaConta + "\n" +

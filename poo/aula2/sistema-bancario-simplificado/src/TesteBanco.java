@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TesteBanco {
@@ -10,7 +11,7 @@ public class TesteBanco {
 
         do {
             System.out.println("Menu de operações:\n1) Criar conta\n2) Depositar\n3) Sacar\n4) Consultar dados " +
-                    "da conta\n5) Consultar dados do cliente\n0) Encerrar atendimento");
+                    "da conta\n5) Consultar dados do cliente\n6) Listar contas\n0) Encerrar atendimento");
             System.out.println("O que deseja?");
             operacoes = Entrada.getInt();
 
@@ -44,6 +45,13 @@ public class TesteBanco {
                 case 5:
                     try{
                         System.out.println(banco.buscarCliente());
+                    } catch (OperacoesException e){
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 6:
+                    try{
+                        banco.listarContas();
                     } catch (OperacoesException e){
                         System.out.println(e.getMessage());
                     }
