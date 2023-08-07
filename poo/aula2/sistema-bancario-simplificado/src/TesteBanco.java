@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 public class TesteBanco {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("SISTEMA BANCÁRIO SIMPLIFICADO");
         int operacoes = -1;
         Banco banco = new Banco();
@@ -13,7 +12,7 @@ public class TesteBanco {
             System.out.println("Menu de operações:\n1) Criar conta\n2) Depositar\n3) Sacar\n4) Consultar dados " +
                     "da conta\n5) Consultar dados do cliente\n0) Encerrar atendimento");
             System.out.println("O que deseja?");
-            operacoes = scanner.nextInt();
+            operacoes = Entrada.getInt();
 
             switch (operacoes){
                 case 1:
@@ -57,7 +56,5 @@ public class TesteBanco {
                     break;
             }
         } while (operacoes != 0);
-
-        scanner.close();
     }
 }
