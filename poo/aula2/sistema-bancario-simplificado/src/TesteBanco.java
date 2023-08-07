@@ -11,7 +11,8 @@ public class TesteBanco {
 
         do {
             System.out.println("Menu de operações:\n1) Criar conta\n2) Depositar\n3) Sacar\n4) Consultar dados " +
-                    "da conta\n5) Consultar dados do cliente\n6) Listar contas\n0) Encerrar atendimento");
+                    "da conta\n5) Consultar dados do cliente\n6) Listar contas\n7) Transferir\n" +
+                    "0) Encerrar atendimento");
             System.out.println("O que deseja?");
             operacoes = Entrada.getInt();
 
@@ -52,6 +53,13 @@ public class TesteBanco {
                 case 6:
                     try{
                         banco.listarContas();
+                    } catch (OperacoesException e){
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 7:
+                    try{
+                        banco.transferir();
                     } catch (OperacoesException e){
                         System.out.println(e.getMessage());
                     }

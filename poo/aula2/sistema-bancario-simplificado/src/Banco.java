@@ -76,9 +76,28 @@ public class Banco {
 
     public void sacar(){
         Conta contaABuscar = buscarConta();
-        System.out.println("Escreva a quantia a ser depositada: ");
+        System.out.println("Escreva a quantia a ser sacada: ");
         double quantiaASacar = Entrada.getDouble();
         contaABuscar.sacar(quantiaASacar);
         System.out.println(contaABuscar);
+    }
+
+    public void transferir(){
+        System.out.println("Transferir de:");
+        Conta contaSaque = buscarConta();
+        System.out.println("Para:");
+        Conta contaDeposito = buscarConta();
+
+        System.out.println("Escreva a quantia a ser transferida: ");
+        double quantiaASacar = Entrada.getDouble();
+
+        contaSaque.sacar(quantiaASacar);
+        if (contaSaque.saldo > quantiaASacar){
+            contaDeposito.depositar(quantiaASacar);
+        }
+
+        System.out.println("Saldos atuais:");
+        System.out.println(contaSaque);
+        System.out.println(contaDeposito);
     }
 }
