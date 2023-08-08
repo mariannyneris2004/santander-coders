@@ -1,9 +1,9 @@
 import java.util.Objects;
 
 public class Conta {
-    Cliente cliente;
-    int numeroDaConta;
-    double saldo;
+    private Cliente cliente;
+    private int numeroDaConta;
+    private double saldo;
 
     public Conta(Cliente cliente, int numeroDaConta) {
         this.cliente = cliente;
@@ -25,6 +25,10 @@ public class Conta {
 
     public int getNumeroDaConta() {
         return numeroDaConta;
+    }
+
+    public double getSaldo() {
+        return saldo;
     }
 
     public Cliente getCliente() {

@@ -1,9 +1,8 @@
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Banco {
-    ArrayList<Conta> contas;
+    private ArrayList<Conta> contas;
 
     public Banco(){}
 
@@ -92,7 +91,7 @@ public class Banco {
         double quantiaASacar = Entrada.getDouble();
 
         contaSaque.sacar(quantiaASacar);
-        if (contaSaque.saldo > quantiaASacar){
+        if (contaSaque.getSaldo() > quantiaASacar){
             contaDeposito.depositar(quantiaASacar);
         }
 
