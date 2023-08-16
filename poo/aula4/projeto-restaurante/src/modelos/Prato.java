@@ -1,8 +1,7 @@
 package modelos;
 
-import java.util.ArrayList;
-
 public class Prato {
+    private int id;
     private String nome;
     private double preco;
     private String descricao;
@@ -15,13 +14,29 @@ public class Prato {
         this.restaurante = restaurante;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Restaurante getRestaurante() {
         return restaurante;
     }
 
     @Override
     public String toString() {
-        return "-----------------------\n" +
+        return "\n" +
                 nome + " ---------------- R$" + preco + "\n" +
                 descricao + "\n" +
                 "-----------------------\n";

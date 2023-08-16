@@ -1,31 +1,71 @@
 package servicos;
 
-
-import modelos.Pedido;
-import modelos.Prato;
+import modelos.*;
 import repositorio.PedidoRepositorio;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PedidoService {
-    private PedidoRepositorio pedidoRepositorio;
-    private List<Pedido> pedidosRealizados;
-
-    public PedidoService(PedidoRepositorio pedidoRepositorio) {
-        this.pedidoRepositorio = pedidoRepositorio;
-        this.pedidosRealizados = new ArrayList<>();
+    private static PedidoService uniqueInstance = new PedidoService();
+    private PedidoService() {
     }
 
-    public void fazerPedido(String nome, String restaurante, List<Prato> pratosDesejados, String endereco){
-        Pedido pedido = new Pedido(nome, restaurante, pratosDesejados, endereco);
-        pedidosRealizados.add(pedido);
+    public static PedidoService getInstance() {
+        return uniqueInstance;
     }
 
-    public String listarPedidosCadastrados(){
-        for (Pedido pedido : pedidosRealizados) {
-            return pedido.toString();
+    private PedidoRepositorio pedidoRepositorio = new PedidoRepositorio();
+
+    public Pedido cadastrarPedido(Cliente cliente, Restaurante restaurante, String enderecoEntrega, Map<Integer, ItemPedido> itensPedido){
+        Pedido pedido = new Pedido(cliente, restaurante, enderecoEntrega);
+        for (ItemPedido itemPedido : itensPedido.values()) {
+            pedido.adicionarItemPedido(itemPedido.getId(), itemPedido);
         }
-        return null;
+        pedidoRepositorio.add(pedido);
+        return pedido;
+    }
+
+    public Pedido getPedido(Integer id){
+        return pedidoRepositorio.getPedido(id);
+    }
+
+    public Pedido getPedido(String nome){
+        return pedidoRepositorio.getPedido(nome);
+    }
+
+    public Map<Integer, Pedido> getPedidos(){
+        return pedidoRepositorio.getPedidos();
+    }
+
+    public boolean deletePedido(Integer id){
+        return pedidoRepositorio.delete(id);
+    }
+
+    public boolean deletePedido(String nome){
+        Pedido prato = pedidoRepositorio.getPedido(nome);
+        return pedidoRepositorio.delete(prato.getId());
+    }
+
+    public Map<Integer, Pedido> listarPedidosRestaurante(Restaurante restaurante){
+        Map<Integer, Pedido> pedidosDoRestaurante = new HashMap<>();
+        for (Pedido pedido : getPedidos().values()) {
+            if (pedido.getRestaurante().equals(restaurante)){
+                pedidosDoRestaurante.put(pedido.getId(), pedido);
+            }
+        }
+
+        return pedidosDoRestaurante;
+    }
+
+    public Map<Integer, Pedido> listarPedidosCliente(Cliente cliente){
+        Map<Integer, Pedido> pedidosDoCliente = new HashMap<>();
+        for (Pedido pedido : getPedidos().values()) {
+            if (pedido.getCliente().equals(cliente)){
+                pedidosDoCliente.put(pedido.getId(), pedido);
+            }
+        }
+
+        return pedidosDoCliente;
     }
 }

@@ -2,30 +2,45 @@ package repositorio;
 
 import modelos.Prato;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PratoRepositorio {
-    private List<Prato> pratos;
+    private Map<Integer, Prato> pratos;
 
     public PratoRepositorio() {
-        this.pratos = new ArrayList<>();
+        this.pratos = new HashMap<>();
     }
 
     public void add(Prato prato){
-        this.pratos.add(prato);
+        prato.setId(pratos.size() + 1);
+
+        this.pratos.put(prato.getId(), prato);
     }
 
     public Prato getPrato(String nome) {
-        for (Prato prato : pratos) {
-            if(prato.getRestaurante().equals(nome)){
+        for (Prato prato : pratos.values()) {
+            if(prato.getNome().equals(nome)){
                 return prato;
             }
         }
         return null;
     }
 
-    public List<Prato> pratosCadastrados(){
-        return pratos;
+    public Prato getPrato(Integer id) {
+        return pratos.get(id);
+    }
+
+    public boolean delete(Integer id) {
+        if (pratos.get(id) != null) {
+            pratos.remove(id);
+            return true;
+        }
+
+        return false;
+    }
+
+    public Map<Integer, Prato> getPratos() {
+        return this.pratos;
     }
 }

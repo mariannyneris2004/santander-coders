@@ -1,13 +1,11 @@
 package entrada_saida;
 
-import modelos.Restaurante;
-import repositorio.RestauranteRepositorio;
-import servicos.RestauranteService;
-
-import java.util.Arrays;
+import entrada_saida.views.PedidoView;
+import entrada_saida.views.PratoView;
+import entrada_saida.views.RestauranteView;
 
 public class Main {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         System.out.println("APLICATIVO DE ENTREGA DE COMIDA");
         int operacao;
 
@@ -29,22 +27,34 @@ public class Main {
     }
 
     public static void operacaoARealizar(int operacao){
-        RestauranteService service = new RestauranteService(new RestauranteRepositorio());
+
         switch (operacao){
             case 1:
-                System.out.println("Informe o nome do restaurante: ");
-                String nome = Entrada.getStringNextLine();
-                System.out.println("Informe o endereço do restaurante: ");
-                String endereco = Entrada.getStringNextLine();
-
-                service.cadastrarRestaurante(nome, endereco);
-                System.out.println("Restaurante cadastrado!");
+                RestauranteView.cadastrarRestaurante();
                 break;
             case 2:
-                //System.out.println(Arrays.toString(service.listarRestaurantesCadastrados().toArray(new Restaurante[0])));
-                for (String restaurante : service.listarRestaurantesCadastrados()) {
-                    System.out.println(restaurante);
-                }
+                RestauranteView.listarRestaurantes();
+                break;
+            case 3:
+                PratoView.cadastrarPrato();
+                break;
+            case 4:
+                PratoView.listarPratosDoRestaurantes();
+                break;
+            case 5:
+                PedidoView.pedir();
+                break;
+            case 6:
+                PedidoView.listarPedidosRestaurante();
+                break;
+            case 7:
+                PedidoView.listarPedidosCliente();
+                break;
+            case 0:
+                break;
+            default:
+                System.out.println("Valor inválido");
+                break;
         }
     }
 }

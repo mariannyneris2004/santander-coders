@@ -1,32 +1,46 @@
 package servicos;
 
-import modelos.Prato;
 import modelos.Restaurante;
 import repositorio.RestauranteRepositorio;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 public class RestauranteService {
-    private RestauranteRepositorio restauranteRepositorio;
+    private static RestauranteService uniqueInstance = new RestauranteService();
 
-    public RestauranteService(RestauranteRepositorio restauranteRepositorio) {
-        this.restauranteRepositorio = restauranteRepositorio;
+    private RestauranteService() {
     }
 
-    public void cadastrarRestaurante(String nome, String endereco){
-        if (restauranteRepositorio.getRestaurante(nome) == null){
-            Restaurante novoRestaurante = new Restaurante(nome, endereco, new ArrayList<Prato>());
-            restauranteRepositorio.add(novoRestaurante);
-        }
+    public static RestauranteService getInstance() {
+        return uniqueInstance;
     }
 
-    public List<String> listarRestaurantesCadastrados(){
-        List<String> nomes = new ArrayList<>();
+    private RestauranteRepositorio restauranteRepositorio = new RestauranteRepositorio();
 
-        for (Restaurante restaurante:restauranteRepositorio.getListaRestaurantes()) {
-            nomes.add(restaurante.getNome());
-        }
-        return nomes;
+    public String cadastrarRestaurante(String nome, String endereco){
+        Restaurante restaurante = new Restaurante(nome, endereco);
+        restauranteRepositorio.add(restaurante);
+        return "Código do restaurante: " + restaurante.getId();
+    }
+
+    public Restaurante getRestaurante(Integer id){
+        return restauranteRepositorio.getRestaurante(id);
+    }
+
+    public Restaurante getRestaurante(String nome){
+        return restauranteRepositorio.getRestaurante(nome);
+    }
+
+    public Map<Integer, Restaurante> getRestaurantes(){
+        return restauranteRepositorio.getRestaurantes();
+    }
+
+    public boolean deleteRestaurante(Integer id){
+        return restauranteRepositorio.delete(id);
+    }
+
+    public boolean deleteRestaurante(String nome){
+        Restaurante restaurante = restauranteRepositorio.getRestaurante(nome);
+        return restauranteRepositorio.delete(restaurante.getId());
     }
 }

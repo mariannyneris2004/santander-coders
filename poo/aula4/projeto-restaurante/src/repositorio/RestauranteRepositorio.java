@@ -2,22 +2,24 @@ package repositorio;
 
 import modelos.Restaurante;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RestauranteRepositorio {
-    private List<Restaurante> restaurantes;
+    private Map<Integer, Restaurante> restaurantes;
 
     public RestauranteRepositorio() {
-        this.restaurantes = new ArrayList<>();
+        this.restaurantes = new HashMap<>();
     }
 
     public void add(Restaurante restaurante){
-        this.restaurantes.add(restaurante);
+        restaurante.setId(restaurantes.size() + 1);
+
+        this.restaurantes.put(restaurante.getId(), restaurante);
     }
 
     public Restaurante getRestaurante(String nome) {
-        for (Restaurante restaurante : restaurantes) {
+        for (Restaurante restaurante : restaurantes.values()) {
             if(restaurante.getNome().equals(nome)){
                 return restaurante;
             }
@@ -25,7 +27,20 @@ public class RestauranteRepositorio {
         return null;
     }
 
-    public List<Restaurante> getListaRestaurantes(){
-        return restaurantes;
+    public Restaurante getRestaurante(Integer id) {
+        return restaurantes.get(id);
+    }
+
+    public boolean delete(Integer id) {
+        if (restaurantes.get(id) != null) {
+            restaurantes.remove(id);
+            return true;
+        }
+
+        return false;
+    }
+
+    public Map<Integer, Restaurante> getRestaurantes() {
+        return this.restaurantes;
     }
 }

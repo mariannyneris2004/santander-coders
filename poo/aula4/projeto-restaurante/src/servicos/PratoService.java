@@ -3,31 +3,44 @@ package servicos;
 import modelos.Prato;
 import modelos.Restaurante;
 import repositorio.PratoRepositorio;
-import repositorio.RestauranteRepositorio;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 public class PratoService {
-    private PratoRepositorio pratoRepositorio;
-    private List<Prato> pratosCadastrados;
-
-    public PratoService(PratoRepositorio pratoRepositorio) {
-        this.pratoRepositorio = pratoRepositorio;
-        this.pratosCadastrados = new ArrayList<>();
+    private static PratoService uniqueInstance = new PratoService();
+    private PratoService() {
     }
+
+    public static PratoService getInstance() {
+        return uniqueInstance;
+    }
+
+    private PratoRepositorio pratoRepositorio = new PratoRepositorio();
 
     public void cadastrarPrato(String nome, double preco, String descricao, Restaurante restaurante){
-        Prato novoPrato = new Prato(nome, preco, descricao, restaurante);
-        pratosCadastrados.add(novoPrato);
+        Prato prato = new Prato(nome, preco, descricao, restaurante);
+        pratoRepositorio.add(prato);
+        restaurante.adicionarPrato(prato.getId(), prato);
     }
 
-    public String listarRestaurantesCadastrados(Restaurante restaurante){
-        for (Prato prato : pratosCadastrados) {
-            if (prato.getRestaurante().equals(restaurante)){
-                return prato.toString();
-            }
-        }
-        return null;
+    public Prato getPrato(Integer id){
+        return pratoRepositorio.getPrato(id);
+    }
+
+    public Prato getPrato(String nome){
+        return pratoRepositorio.getPrato(nome);
+    }
+
+    public Map<Integer, Prato> getPratos(){
+        return pratoRepositorio.getPratos();
+    }
+
+    public boolean deletePrato(Integer id){
+        return pratoRepositorio.delete(id);
+    }
+
+    public boolean deletePrato(String nome){
+        Prato prato = pratoRepositorio.getPrato(nome);
+        return pratoRepositorio.delete(prato.getId());
     }
 }
