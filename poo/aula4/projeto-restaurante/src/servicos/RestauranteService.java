@@ -1,5 +1,6 @@
 package servicos;
 
+import exceptions.ListaVaziaException;
 import modelos.Restaurante;
 import repositorio.RestauranteRepositorio;
 
@@ -31,8 +32,11 @@ public class RestauranteService {
         return restauranteRepositorio.getRestaurante(nome);
     }
 
-    public Map<Integer, Restaurante> getRestaurantes(){
-        return restauranteRepositorio.getRestaurantes();
+    public Map<Integer, Restaurante> getRestaurantes() throws ListaVaziaException {
+        if (!restauranteRepositorio.getRestaurantes().isEmpty()){
+            return restauranteRepositorio.getRestaurantes();
+        }
+        throw new ListaVaziaException("Nenhum restaurante cadastrado!");
     }
 
     public boolean deleteRestaurante(Integer id){

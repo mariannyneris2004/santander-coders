@@ -1,5 +1,6 @@
 package servicos;
 
+import exceptions.ListaVaziaException;
 import modelos.*;
 import repositorio.PedidoRepositorio;
 
@@ -65,7 +66,10 @@ public class PedidoService {
                 pedidosDoCliente.put(pedido.getId(), pedido);
             }
         }
+        if (!pedidosDoCliente.equals(null)){
+            return pedidosDoCliente;
+        }
 
-        return pedidosDoCliente;
+        throw new ListaVaziaException("Nenhum cliente cadastrado!");
     }
 }

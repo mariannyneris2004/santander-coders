@@ -1,6 +1,7 @@
 package repositorio;
 
 import modelos.Prato;
+import modelos.Restaurante;
 
 import java.util.HashMap;
 import java.util.Map;

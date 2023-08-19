@@ -1,6 +1,7 @@
 package entrada_saida.views;
 
 import entrada_saida.Entrada;
+import exceptions.ObjetoNaoEcontradoException;
 import modelos.ItemPedido;
 import modelos.Prato;
 import modelos.Restaurante;
@@ -11,26 +12,35 @@ import servicos.RestauranteService;
 import java.util.Map;
 
 public class ItemPedidoView {
-    public static Map<Integer, ItemPedido> pedir(Map<Integer, ItemPedido> itensPedido){
+    public static Map<Integer, ItemPedido> pedir(Map<Integer, ItemPedido> itensPedido, Restaurante restaurante){
         PratoService pratoService = PratoService.getInstance();
         ItemPedidoService itemPedidoService = ItemPedidoService.getInstance();
 
-        String continuar;
-        do {
-            System.out.println("Informe o nome do prato: ");
-            String nome = Entrada.getStringNextLine();
-            System.out.println("Informe a quantidade: ");
-            int quantidade = Entrada.getInt();
+        try {
+            String continuar;
+            do {
+                System.out.println("Informe o nome do prato: ");
+                String nome = Entrada.getStringNextLine();
+                Prato prato = pratoService.getPrato(nome, restaurante);
 
-            Prato prato = pratoService.getPrato(nome);
-            ItemPedido itemPedido = itemPedidoService.cadastrarItemPedido(prato, quantidade);
+                System.out.println("Informe a quantidade: ");
+                int quantidade = Entrada.getInt();
 
-            itensPedido.put(itemPedido.getId(), itemPedido);
-            System.out.println("Deseja pedir algo mais? (y/n)");
-            continuar = Entrada.getStringNext();
-        } while (continuar.equals("y"));
+                ItemPedido itemPedido = itemPedidoService.cadastrarItemPedido(prato, quantidade);
 
-        return itensPedido;
+                itensPedido.put(itemPedido.getId(), itemPedido);
+                System.out.println("Deseja pedir algo mais? (y/n)");
+
+                continuar = Entrada.getStringNext();
+            } while (continuar.equals("y"));
+
+            return itensPedido;
+        } catch (ObjetoNaoEcontradoException e){
+            System.out.println(e.getMessage());
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public static void removerRestaurante(){

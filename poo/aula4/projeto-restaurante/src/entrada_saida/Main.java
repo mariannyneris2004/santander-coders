@@ -3,16 +3,24 @@ package entrada_saida;
 import entrada_saida.views.PedidoView;
 import entrada_saida.views.PratoView;
 import entrada_saida.views.RestauranteView;
+import exceptions.ListaVaziaException;
+import exceptions.ObjetoNaoEcontradoException;
+
+import java.util.InputMismatchException;
 
 public class Main {
         public static void main(String[] args) {
         System.out.println("APLICATIVO DE ENTREGA DE COMIDA");
-        int operacao;
+        int operacao = -1;
 
         do {
-            menu();
-            operacao = Entrada.getInt();
-            operacaoARealizar(operacao);
+            try {
+                menu();
+                operacao = Entrada.getInt();
+                operacaoARealizar(operacao);
+            } catch (InputMismatchException e){
+                System.out.println("Valor inválido!");
+            }
         } while (operacao != 0);
     }
 
@@ -30,25 +38,77 @@ public class Main {
 
         switch (operacao){
             case 1:
-                RestauranteView.cadastrarRestaurante();
-                break;
+                try {
+                    RestauranteView.cadastrarRestaurante();
+                    break;
+                } catch (RuntimeException e){
+                    System.out.println(e.getMessage());
+                }
             case 2:
-                RestauranteView.listarRestaurantes();
+                try {
+                    RestauranteView.listarRestaurantes();
+                } catch (ObjetoNaoEcontradoException e){
+                    System.out.println(e.getMessage());
+                } catch (ListaVaziaException e){
+                    System.out.println(e.getMessage());
+                } catch (RuntimeException e){
+                    System.out.println(e.getMessage());
+                }
                 break;
             case 3:
-                PratoView.cadastrarPrato();
+                try {
+                    PratoView.cadastrarPrato();
+                } catch (ObjetoNaoEcontradoException e){
+                    System.out.println(e.getMessage());
+                } catch (ListaVaziaException e){
+                    System.out.println(e.getMessage());
+                } catch (RuntimeException e){
+                    System.out.println(e.getMessage());
+                }
                 break;
             case 4:
-                PratoView.listarPratosDoRestaurantes();
+                try {
+                    PratoView.listarPratosDoRestaurantes();
+                } catch (ObjetoNaoEcontradoException e){
+                    System.out.println(e.getMessage());
+                } catch (ListaVaziaException e){
+                    System.out.println(e.getMessage());
+                } catch (RuntimeException e){
+                    System.out.println(e.getMessage());
+                }
                 break;
             case 5:
-                PedidoView.pedir();
-                break;
+                try {
+                    PedidoView.pedir();
+                    break;
+                } catch (ObjetoNaoEcontradoException e){
+                    System.out.println(e.getMessage());
+                } catch (ListaVaziaException e){
+                    System.out.println(e.getMessage());
+                } catch (RuntimeException e){
+                    System.out.println(e.getMessage());
+                }
             case 6:
-                PedidoView.listarPedidosRestaurante();
+                try {
+                    PedidoView.listarPedidosRestaurante();
+                } catch (ObjetoNaoEcontradoException e){
+                    System.out.println(e.getMessage());
+                } catch (ListaVaziaException e){
+                    System.out.println(e.getMessage());
+                } catch (RuntimeException e){
+                    System.out.println(e.getMessage());
+                }
                 break;
             case 7:
-                PedidoView.listarPedidosCliente();
+                try {
+                    PedidoView.listarPedidosCliente();
+                } catch (ObjetoNaoEcontradoException e){
+                    System.out.println(e.getMessage());
+                } catch (ListaVaziaException e){
+                    System.out.println(e.getMessage());
+                } catch (RuntimeException e){
+                    System.out.println(e.getMessage());
+                }
                 break;
             case 0:
                 break;

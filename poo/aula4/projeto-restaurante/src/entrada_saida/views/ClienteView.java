@@ -1,6 +1,7 @@
 package entrada_saida.views;
 
 import entrada_saida.Entrada;
+import exceptions.ListaVaziaException;
 import modelos.Cliente;
 import servicos.ClienteService;
 
@@ -38,11 +39,15 @@ public class ClienteView {
     }
 
     public static void listarClientes(){
-        ClienteService service = ClienteService.getInstance();
+        try {
+            ClienteService service = ClienteService.getInstance();
 
-        for (int i = 1; i <= service.getClientes().size(); i++) {
-            System.out.println(i + ")" + service.getClientes().get(i).getNome());
+            for (int i = 1; i <= service.getClientes().size(); i++) {
+                System.out.println(i + ")" + service.getClientes().get(i).getNome());
+            }
+            System.out.println("Escolha o cliente: ");
+        } catch (ListaVaziaException e){
+            throw new ListaVaziaException("Nenhum cliente cadastrado!");
         }
-        System.out.println("Escolha o cliente: ");
     }
 }
