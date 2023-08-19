@@ -5,32 +5,51 @@ import impl.StringArrayLista;
 
 public class Main {
     public static void main(String[] args) {
-        Lista lista = new ArrayLista();
 
-        lista.add("primeiro elemento");
-        lista.add("segundo elemento");
-        lista.add(3);
-        lista.add(4);
+        Lista listaArray = new ArrayLista();
+
+        listaArray.add("primeiro elemento");
+        listaArray.add("segundo elemento");
+        listaArray.add(1);
+        listaArray.add(2);
+
+        imprimirLista(listaArray);
+
+        System.out.println();
+
+        listaArray.remove(3);
+
+        imprimirLista(listaArray);
+
+        System.out.println();
 
         Lista listaString = new StringArrayLista();
         listaString.add("meu nome");
         listaString.add("outro nome");
 
+        imprimirLista(listaString);
+
+        System.out.println();
+
         Lista listaLigada = new ListaLigada();
         listaLigada.add("primeiro elemento");
         listaLigada.add("segundo elemento");
-        listaLigada.add(3);
-        listaLigada.add(4);
+        listaLigada.add(1);
+        listaLigada.add(2);
 
-        /*imprimirLista(lista);
-        imprimirLista(listaString);*/
         imprimirLista(listaLigada);
 
+        System.out.println();
+
+        listaLigada.remove(3);
+
+        imprimirLista(listaLigada);
     }
 
-    public static void imprimirLista(Lista lista){
-        for (int i = 0; i < lista.size(); i++) {
+    public static void imprimirLista(Lista lista) {
+        for (int i = 0 ; i < lista.size() ; i++) {
             System.out.println(lista.get(i));
         }
     }
+
 }

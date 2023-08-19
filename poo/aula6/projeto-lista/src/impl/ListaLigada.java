@@ -3,31 +3,45 @@ package impl;
 import contrato.Lista;
 
 public class ListaLigada extends Lista {
-    private int size;
-    private int ultimo;
-    private Elemento primeiro;
 
-    @Override
-    public int size() {
-        return 0;
-    }
+    private int size;
+    private Elemento primeiro;
+    private Elemento ultimo;
 
     @Override
     public void add(Object obj) {
         Elemento primeiro = new Elemento(obj);
-        if (size == 0){
+        if (size == 0) {
             this.primeiro = primeiro;
+            this.ultimo = primeiro;
             size++;
         } else {
-            Elemento elemento = this.primeiro;
-            while (elemento.getProximo() != null){
-                elemento = elemento.getProximo();
-            }
-
             Elemento novoElemento = new Elemento(obj);
-            elemento.setProximo(novoElemento);
+            this.ultimo.setProximo(novoElemento);
+
+            this.ultimo = novoElemento;
             size++;
         }
+    }
+
+    @Override
+    public void remove(int idx) {
+        if (idx < 0 || idx >= this.size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (idx == 0) {
+            this.primeiro = this.primeiro.getProximo();
+            this.size--;
+            return;
+        }
+
+        Elemento elemento = this.primeiro;
+        for (int i = 0; i < idx - 1; i++) {
+            elemento = elemento.getProximo();
+        }
+        elemento.setProximo(elemento.getProximo().getProximo());
+        this.size--;
     }
 
     @Override
@@ -39,7 +53,12 @@ public class ListaLigada extends Lista {
         return elemento.getObj();
     }
 
-    class Elemento{
+    @Override
+    public int size() {
+        return size;
+    }
+
+    class Elemento {
         private Object obj;
         private Elemento proximo;
 

@@ -5,11 +5,30 @@ import contrato.Lista;
 import java.util.ArrayList;
 
 public class ArrayLista extends Lista {
-    private Object[] array;
+
     private int size;
+    private Object[] array;
 
     public ArrayLista() {
         this.array = new Object[10];
+    }
+
+    @Override
+    public void add(Object obj) {
+        if (size == this.array.length) {
+            resize();
+        }
+
+        this.array[size] = obj;
+        size++;
+    }
+
+    @Override
+    public Object get(int idx) {
+        if (idx < 0 || idx >= size) {
+            throw new IndexOutOfBoundsException("Posicao inexistente");
+        }
+        return this.array[idx];
     }
 
     @Override
@@ -18,16 +37,32 @@ public class ArrayLista extends Lista {
     }
 
     @Override
-    public void add(Object obj) {
-        this.array[size] = obj;
-        size++;
+    public void remove(int idx) {
+
+        // 1. primeiro verificar o indice (indexOutOfBoundException)
+        if (idx < 0 || idx >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        // 2. for do idx recebido ate penultima posicao
+        for (int i = idx; i < this.size - 1; i++) {
+
+            // 3. apos o idx - add [idx + 1]
+            this.array[i] = this.array[i+1];
+        }
+
+        // 4. remover ultimo para nao ficar duplicado (null)
+        this.array[this.size - 1] = null;
+
+        // 5. decrementa o size
+        size--;
     }
 
-    @Override
-    public Object get(int idx) {
-        if (idx < 0 || idx >= size){
-            throw new IndexOutOfBoundsException("Posição inexistente.");
+    private void resize() {
+        Object[] novoArray = new Object[this.array.length * 2];
+        for (int i = 0; i < this.array.length; i++) {
+            novoArray[i] = this.array[i];
         }
-        return this.array[idx];
+        this.array = novoArray;
     }
 }
