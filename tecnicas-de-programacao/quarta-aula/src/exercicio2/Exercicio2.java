@@ -16,5 +16,12 @@ public class Exercicio2 {
         System.out.println("O produto mais caro é: ");
 
         System.out.println(produtos.stream().max(Comparator.comparing(Produto::getPreco)));
+
+        //sugestões da aula
+        System.out.println();
+        //como pegar o nome
+        System.out.println(produtos.stream().max(Comparator.comparingDouble(Produto::getPreco)).get().getNome());
+        //como pegar o preço
+        System.out.println(produtos.stream().map(p -> p.getPreco()).max(Comparator.naturalOrder()).get());
     }
 }
