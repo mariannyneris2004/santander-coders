@@ -6,3 +6,4 @@
 1. Introdução a Lógica de Programação
 2. Programação Orientada a Objeto I
 3. Programação Orientada a Objeto II
+4. Técnicas de Programação
