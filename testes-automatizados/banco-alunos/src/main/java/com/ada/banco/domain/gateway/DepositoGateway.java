@@ -4,7 +4,7 @@ import com.ada.banco.domain.model.Conta;
 
 import java.math.BigDecimal;
 
-public interface ContaGateway {
-    Conta buscarPorCpf(String cpf);
-    Conta salvar(Conta conta);
+public interface DepositoGateway {
+    Conta depositar(Conta conta, BigDecimal valor);
+
 }
