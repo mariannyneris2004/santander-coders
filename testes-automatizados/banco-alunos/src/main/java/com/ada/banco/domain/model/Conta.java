@@ -1,24 +1,32 @@
 package com.ada.banco.domain.model;
 
+import com.ada.banco.domain.model.enums.TipoContaEnum;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
+@Entity
 public class Conta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long agencia;
     private Long digito;
     private BigDecimal saldo;
+    private TipoContaEnum tipoConta;
 
-    // Usuario / Titular
-    private String titular;
-    private String cpf;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
-    public Conta(Long id, Long agencia, Long digito, BigDecimal saldo, String titular, String cpf) {
-        this.id = id;
+    public Conta(){}
+
+    public Conta(Long agencia, Long digito, BigDecimal saldo, Cliente cliente, TipoContaEnum tipoConta) {
         this.agencia = agencia;
         this.digito = digito;
         this.saldo = saldo;
-        this.titular = titular;
-        this.cpf = cpf;
+        this.cliente = cliente;
+        this.tipoConta = tipoConta;
     }
 
     public Long getId() {
@@ -53,19 +61,31 @@ public class Conta {
         this.saldo = saldo;
     }
 
-    public String getTitular() {
-        return titular;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setTitular(String titular) {
-        this.titular = titular;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public String getCpf() {
-        return cpf;
+    public TipoContaEnum getTipoConta() {
+        return tipoConta;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setTipoConta(TipoContaEnum tipoConta) {
+        this.tipoConta = tipoConta;
+    }
+
+    @Override
+    public String toString() {
+        return "Conta{" +
+                "id=" + id +
+                ", agencia=" + agencia +
+                ", digito=" + digito +
+                ", saldo=" + saldo +
+                ", tipoConta=" + tipoConta +
+                ", cliente=" + cliente +
+                '}';
     }
 }

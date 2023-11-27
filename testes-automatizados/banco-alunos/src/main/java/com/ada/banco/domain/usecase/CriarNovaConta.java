@@ -1,26 +1,34 @@
 package com.ada.banco.domain.usecase;
 
+import com.ada.banco.domain.exceptions.ClienteJaPossuiContaException;
+import com.ada.banco.domain.gateway.ClienteGateway;
 import com.ada.banco.domain.gateway.ContaGateway;
+import com.ada.banco.domain.model.Cliente;
 import com.ada.banco.domain.model.Conta;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CriarNovaConta {
+    private Cliente cliente = new Cliente();
     private ContaGateway contaGateway;
+    private ClienteGateway clienteGateway;
 
-    public CriarNovaConta(ContaGateway contaGateway) {
+    public CriarNovaConta(ContaGateway contaGateway, ClienteGateway clienteGateway) {
         this.contaGateway = contaGateway;
+        this.clienteGateway = clienteGateway;
     }
 
     public Conta execute(Conta conta) throws Exception {
-        // validar se o usuario ja possui uma conta
-        if(contaGateway.buscarPorCpf(conta.getCpf()) != null) {
-            // - se possuir vamos lancar uma exception
-            throw new Exception("Usuario ja possui uma conta");
+        cliente = clienteGateway.buscarPorId(conta.getCliente().getId());
+        if (cliente != null){
+            conta.setCliente(cliente);
+            if (contaGateway.buscarPorCliente(conta.getCliente()) == null){
+                contaGateway.salvar(conta);
+                return conta;
+            }
         }
 
-        // criar uma nova conta
-        Conta novaConta = contaGateway.salvar(conta);
-
-        //return Conta;
-        return novaConta;
+        throw new ClienteJaPossuiContaException();
     }
 }
