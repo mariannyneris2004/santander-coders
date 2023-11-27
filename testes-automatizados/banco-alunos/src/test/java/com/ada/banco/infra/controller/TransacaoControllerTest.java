@@ -34,7 +34,6 @@ public class TransacaoControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("Realiza depósito com sucesso (Status 201)")
     public void depositarComSucesso() throws Exception {
         Cliente cliente = new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com");
         String requestCliente = objectMapper.writeValueAsString(cliente);
@@ -59,7 +58,9 @@ public class TransacaoControllerTest {
                                 .content(requestConta))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        Transacao transacao = new Transacao(TipoTransacaoEnum.DEPOSITO, new BigDecimal(500), conta);
+        conta.setId(1L);
+
+        Transacao transacao = new Transacao(TipoTransacaoEnum.SAQUE, new BigDecimal(200), conta);
 
         String requestTransacao = objectMapper.writeValueAsString(transacao);
 
@@ -72,8 +73,8 @@ public class TransacaoControllerTest {
     }
 
     @Test
-    public void buscaContas() throws Exception {
-        Cliente cliente = new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com");
+    public void sacarComSucesso() throws Exception {
+        Cliente cliente = new Cliente("Marianny", "1234", "123456789", "endereço", "email@gmail.com");
         String requestCliente = objectMapper.writeValueAsString(cliente);
 
         mockMvc.perform(
@@ -83,10 +84,11 @@ public class TransacaoControllerTest {
                                 .content(requestCliente))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        cliente.setId(1L);
+        cliente.setId(2L);
 
-        String requestConta = objectMapper.writeValueAsString(
-                new Conta(1234L, 2L, new BigDecimal(500), cliente, TipoContaEnum.POUPANCA));
+        Conta conta = new Conta(1234L, 2L, new BigDecimal(500), cliente, TipoContaEnum.POUPANCA);
+
+        String requestConta = objectMapper.writeValueAsString(conta);
 
         mockMvc.perform(
                         MockMvcRequestBuilders
@@ -95,7 +97,48 @@ public class TransacaoControllerTest {
                                 .content(requestConta))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        Cliente cliente2 = new Cliente("OutroCliente", "1234", "123456789", "endereço", "email@gmail.com");
+        conta.setId(2L);
+
+        Transacao transacao = new Transacao(TipoTransacaoEnum.SAQUE, new BigDecimal(200), conta);
+
+        String requestTransacao = objectMapper.writeValueAsString(transacao);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/transacoes/sacar")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestTransacao))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+    }
+
+    @Test
+    public void transferirComSucesso() throws Exception {
+        Cliente cliente = new Cliente("Marianny", "1235", "123456789", "endereço", "email@gmail.com");
+        String requestCliente = objectMapper.writeValueAsString(cliente);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/clientes")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestCliente))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+
+        cliente.setId(3L);
+
+        Conta conta = new Conta(1234L, 2L, new BigDecimal(500), cliente, TipoContaEnum.POUPANCA);
+
+        String requestConta = objectMapper.writeValueAsString(conta);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/contas")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestConta))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+
+        conta.setId(3L);
+
+        Cliente cliente2 = new Cliente("Marianny", "1232", "123456789", "endereço", "email@gmail.com");
         String requestCliente2 = objectMapper.writeValueAsString(cliente2);
 
         mockMvc.perform(
@@ -105,10 +148,11 @@ public class TransacaoControllerTest {
                                 .content(requestCliente2))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        cliente2.setId(2L);
+        cliente2.setId(4L);
 
-        String requestConta2 = objectMapper.writeValueAsString(
-                new Conta(1234L, 2L, new BigDecimal(500), cliente2, TipoContaEnum.POUPANCA));
+        Conta conta2 = new Conta(1234L, 2L, new BigDecimal(500), cliente, TipoContaEnum.POUPANCA);
+
+        String requestConta2 = objectMapper.writeValueAsString(conta2);
 
         mockMvc.perform(
                         MockMvcRequestBuilders
@@ -117,21 +161,23 @@ public class TransacaoControllerTest {
                                 .content(requestConta2))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        MvcResult result = mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .get("/contas")
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
+        conta2.setId(4L);
 
-        String response = result.getResponse().getContentAsString();
-        List<Cliente> clientes = objectMapper.readValue(response, ArrayList.class);
-        Assertions.assertFalse(clientes.isEmpty());
+        Transacao transacao = new Transacao(TipoTransacaoEnum.TRANSFERENCIA, new BigDecimal(200), conta, conta2);
+
+        String requestTransacao = objectMapper.writeValueAsString(transacao);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/transacoes/transferir")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestTransacao))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @Test
-    public void buscaContaPorId() throws Exception {
-        Cliente cliente = new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com");
+    public void buscaTransacaoPorIdDaConta() throws Exception {
+        Cliente cliente = new Cliente("Marianny", "1236", "123456789", "endereço", "email@gmail.com");
         String requestCliente = objectMapper.writeValueAsString(cliente);
 
         mockMvc.perform(
@@ -141,7 +187,7 @@ public class TransacaoControllerTest {
                                 .content(requestCliente))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        cliente.setId(1L);
+        cliente.setId(5L);
 
         Conta conta = new Conta(1234L, 2L, new BigDecimal(500), cliente, TipoContaEnum.POUPANCA);
         String requestConta = objectMapper.writeValueAsString(conta);
@@ -153,45 +199,24 @@ public class TransacaoControllerTest {
                                 .content(requestConta))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        conta.setId(1L);
+        conta.setId(5L);
 
-        MvcResult result = mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .get("/contas/{id}", "1")
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
+        Transacao transacao = new Transacao(TipoTransacaoEnum.SAQUE, new BigDecimal(200), conta);
 
-        int status = result.getResponse().getStatus();
-        Assertions.assertEquals(200, status);
-    }
-
-    @Test
-    public void buscaContaPorCpfDoCliente() throws Exception {
-        Cliente cliente = new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com");
-        String requestCliente = objectMapper.writeValueAsString(cliente);
+        String requestTransacao = objectMapper.writeValueAsString(transacao);
 
         mockMvc.perform(
                         MockMvcRequestBuilders
-                                .post("/clientes")
+                                .post("/transacoes/sacar")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(requestCliente))
+                                .content(requestTransacao))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        cliente.setId(1L);
-
-        String requestConta = objectMapper.writeValueAsString(
-                new Conta(1234L, 2L, new BigDecimal(500), cliente, TipoContaEnum.POUPANCA));
-
-        mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .post("/contas")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(requestConta))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
+        transacao.setId(5L);
 
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders
-                                .get("/contas/cpf/{cpf}", "123")
+                                .get("/transacoes/{id}", "5")
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 

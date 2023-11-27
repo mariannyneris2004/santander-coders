@@ -20,7 +20,7 @@ public class ClienteController {
     private CadastrarNovoCliente cadastrarNovoCliente;
 
     @PostMapping
-    public ResponseEntity caadastraCliente(@RequestBody Cliente cliente) throws Exception {
+    public ResponseEntity cadastraCliente(@RequestBody Cliente cliente) throws Exception {
         Cliente novoCliente;
         try {
             novoCliente = cadastrarNovoCliente.execute(cliente);

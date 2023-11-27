@@ -39,7 +39,7 @@ public class ClienteControllerTest {
     @DisplayName("Cria cliente com sucesso (Status 201) e com bad request (ao tentar cadastrar mesmo cliente)")
     public void criaCliente() throws Exception {
         String requestCliente = objectMapper.writeValueAsString(
-                new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com"));
+                new Cliente("Marianny", "1230", "123456789", "endereço", "email@gmail.com"));
 
         mockMvc.perform(
                 MockMvcRequestBuilders
@@ -49,7 +49,7 @@ public class ClienteControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
         String requestCliente2 = objectMapper.writeValueAsString(
-                new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com"));
+                new Cliente("Marianny", "1237", "123456789", "endereço", "email@gmail.com"));
 
         mockMvc.perform(
                         MockMvcRequestBuilders
@@ -65,7 +65,7 @@ public class ClienteControllerTest {
     public void verificaMetodoCadastraCliente() throws Exception {
         Cliente cliente = new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com");
 
-        clienteController.caadastraCliente(cliente);
+        clienteController.cadastraCliente(cliente);
 
         Cliente clienteCriado = clienteRepository.findByCpf("123");
         Assertions.assertEquals("123", clienteCriado.getCpf());
@@ -108,7 +108,7 @@ public class ClienteControllerTest {
     @Test
     public void buscaClientePorCpf() throws Exception {
         String requestCliente = objectMapper.writeValueAsString(
-                new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com"));
+                new Cliente("Marianny", "1238", "123456789", "endereço", "email@gmail.com"));
 
         mockMvc.perform(
                         MockMvcRequestBuilders

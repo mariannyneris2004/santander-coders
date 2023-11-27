@@ -40,7 +40,7 @@ public class ContaControllerTest {
     @Test
     @DisplayName("Cria conta com sucesso (Status 201) e com bad request (ao tentar cadastrar mesma conta)")
     public void criaCliente() throws Exception {
-        Cliente cliente = new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com");
+        Cliente cliente = new Cliente("Marianny", "123904", "123456789", "endereço", "email@gmail.com");
         String requestCliente = objectMapper.writeValueAsString(cliente);
 
         mockMvc.perform(
@@ -77,7 +77,7 @@ public class ContaControllerTest {
 
     @Test
     public void buscaContas() throws Exception {
-        Cliente cliente = new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com");
+        Cliente cliente = new Cliente("Marianny", "1256732", "123456789", "endereço", "email@gmail.com");
         String requestCliente = objectMapper.writeValueAsString(cliente);
 
         mockMvc.perform(
@@ -87,10 +87,10 @@ public class ContaControllerTest {
                                 .content(requestCliente))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        cliente.setId(1L);
+        cliente.setId(2L);
 
         String requestConta = objectMapper.writeValueAsString(
-                new Conta(1234L, 2L, new BigDecimal(500), cliente, TipoContaEnum.POUPANCA));
+                new Conta(1204L, 2L, new BigDecimal(500), cliente, TipoContaEnum.POUPANCA));
 
         mockMvc.perform(
                         MockMvcRequestBuilders
@@ -99,7 +99,7 @@ public class ContaControllerTest {
                                 .content(requestConta))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        Cliente cliente2 = new Cliente("OutroCliente", "1234", "123456789", "endereço", "email@gmail.com");
+        Cliente cliente2 = new Cliente("OutroCliente", "1789234", "123456789", "endereço", "email@gmail.com");
         String requestCliente2 = objectMapper.writeValueAsString(cliente2);
 
         mockMvc.perform(
@@ -109,7 +109,7 @@ public class ContaControllerTest {
                                 .content(requestCliente2))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        cliente2.setId(2L);
+        cliente2.setId(3L);
 
         String requestConta2 = objectMapper.writeValueAsString(
                 new Conta(1234L, 2L, new BigDecimal(500), cliente2, TipoContaEnum.POUPANCA));
@@ -135,7 +135,7 @@ public class ContaControllerTest {
 
     @Test
     public void buscaContaPorId() throws Exception {
-        Cliente cliente = new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com");
+        Cliente cliente = new Cliente("Marianny", "12893", "123456789", "endereço", "email@gmail.com");
         String requestCliente = objectMapper.writeValueAsString(cliente);
 
         mockMvc.perform(
@@ -147,7 +147,7 @@ public class ContaControllerTest {
 
         cliente.setId(1L);
 
-        Conta conta = new Conta(1234L, 2L, new BigDecimal(500), cliente, TipoContaEnum.POUPANCA);
+        Conta conta = new Conta(4321L, 2L, new BigDecimal(500), cliente, TipoContaEnum.POUPANCA);
         String requestConta = objectMapper.writeValueAsString(conta);
 
         mockMvc.perform(
@@ -171,7 +171,7 @@ public class ContaControllerTest {
 
     @Test
     public void buscaContaPorCpfDoCliente() throws Exception {
-        Cliente cliente = new Cliente("Marianny", "123", "123456789", "endereço", "email@gmail.com");
+        Cliente cliente = new Cliente("Marianny", "1230", "123456789", "endereço", "email@gmail.com");
         String requestCliente = objectMapper.writeValueAsString(cliente);
 
         mockMvc.perform(
@@ -181,7 +181,7 @@ public class ContaControllerTest {
                                 .content(requestCliente))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        cliente.setId(1L);
+        cliente.setId(5L);
 
         String requestConta = objectMapper.writeValueAsString(
                 new Conta(1234L, 2L, new BigDecimal(500), cliente, TipoContaEnum.POUPANCA));
@@ -195,7 +195,7 @@ public class ContaControllerTest {
 
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders
-                                .get("/contas/cpf/{cpf}", "123")
+                                .get("/contas/cpf/{cpf}", "1230")
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 

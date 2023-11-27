@@ -1,6 +1,7 @@
 package com.ada.banco.domain.usecase;
 
 import com.ada.banco.domain.exceptions.ClienteJaPossuiContaException;
+import com.ada.banco.domain.gateway.ClienteGateway;
 import com.ada.banco.domain.gateway.ContaGateway;
 import com.ada.banco.domain.model.Cliente;
 import com.ada.banco.domain.model.Conta;
@@ -18,6 +19,8 @@ import java.math.BigDecimal;
 @ExtendWith(MockitoExtension.class)
 public class CriarNovaContaTest {
     @Mock
+    ClienteGateway clienteGateway;
+    @Mock
     private ContaGateway contaGateway;
     @InjectMocks
     CriarNovaConta criarNovaConta;
@@ -27,6 +30,7 @@ public class CriarNovaContaTest {
         Cliente cliente = new Cliente("Marianny", "123", "1234", "endereço", "email@gmail.com");
         Conta conta = new Conta(12345L, 0002L, BigDecimal.ZERO, cliente, TipoContaEnum.POUPANCA);
 
+        Mockito.when(clienteGateway.buscarPorId(conta.getCliente().getId())).thenReturn(cliente);
         Mockito.when(contaGateway.buscarPorCliente(conta.getCliente())).thenReturn(conta);
         Throwable throwable = Assertions.assertThrows(ClienteJaPossuiContaException.class, () -> criarNovaConta.execute(conta));
 
@@ -42,6 +46,7 @@ public class CriarNovaContaTest {
         Conta conta = new Conta(12345L, 0002L, BigDecimal.ZERO, cliente, TipoContaEnum.POUPANCA);
 
         Mockito.when(contaGateway.buscarPorCliente(conta.getCliente())).thenReturn(null);
+        Mockito.when(clienteGateway.buscarPorId(conta.getCliente().getId())).thenReturn(cliente);
         Mockito.when(contaGateway.salvar(conta)).thenReturn(conta);
         Conta novaConta = criarNovaConta.execute(conta);
 

@@ -35,6 +35,9 @@ public class TransferirTest {
         Cliente cliente2 = new Cliente("Marianny", "1234", "1234", "endereço", "email@gmail.com");
         Conta contaDestino = new Conta(12345L, 0002L, BigDecimal.ZERO, cliente2, TipoContaEnum.POUPANCA);
 
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(contaOrigem);
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(contaDestino);
+
         transacao = new Transacao(TipoTransacaoEnum.SAQUE, new BigDecimal(-500), contaOrigem, contaDestino);
 
         Throwable throwable = Assertions.assertThrows(Exception.class, () -> transferir.execute(transacao));
@@ -55,6 +58,9 @@ public class TransferirTest {
 
         transacao = new Transacao(TipoTransacaoEnum.SAQUE, BigDecimal.ZERO, contaOrigem, contaDestino);
 
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(contaOrigem);
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(contaDestino);
+
         Throwable throwable = Assertions.assertThrows(Exception.class, () -> transferir.execute(transacao));
 
         Assertions.assertEquals("Não foi possível realizar transferência.", throwable.getMessage());
@@ -72,6 +78,9 @@ public class TransferirTest {
         Conta contaDestino = new Conta(12345L, 0002L, BigDecimal.ZERO, cliente2, TipoContaEnum.POUPANCA);
 
         transacao = new Transacao(TipoTransacaoEnum.SAQUE, new BigDecimal(500), contaOrigem, contaDestino);
+
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(contaOrigem);
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(contaDestino);
 
         Throwable throwable = Assertions.assertThrows(Exception.class, () -> transferir.execute(transacao));
 
@@ -92,6 +101,9 @@ public class TransferirTest {
         contaDestino.setId(2L);
 
         transacao = new Transacao(TipoTransacaoEnum.SAQUE, new BigDecimal(200), contaOrigem, contaDestino);
+
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(contaOrigem);
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(contaDestino);
 
         Transacao novaTransacao = transferir.execute(transacao);
 

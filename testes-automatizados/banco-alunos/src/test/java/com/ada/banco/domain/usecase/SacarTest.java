@@ -32,6 +32,8 @@ public class SacarTest {
         Conta conta = new Conta(12345L, 0002L, BigDecimal.ZERO, cliente, TipoContaEnum.POUPANCA);
         Transacao transacao = new Transacao(TipoTransacaoEnum.SAQUE, new BigDecimal(500), conta);
 
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(conta);
+
         Throwable throwable = Assertions.assertThrows(Exception.class, () -> sacar.execute(transacao));
 
         Assertions.assertEquals("Não foi possível realizar saque.", throwable.getMessage());
@@ -60,6 +62,8 @@ public class SacarTest {
         Conta conta = new Conta(12345L, 0002L, BigDecimal.TEN, cliente, TipoContaEnum.POUPANCA);
         Transacao transacao = new Transacao(TipoTransacaoEnum.SAQUE, new BigDecimal(500), conta);
 
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(conta);
+
         Throwable throwable = Assertions.assertThrows(Exception.class, () -> sacar.execute(transacao));
 
         Assertions.assertEquals("Não foi possível realizar saque.", throwable.getMessage());
@@ -73,6 +77,8 @@ public class SacarTest {
         Cliente cliente = new Cliente("Marianny", "123", "1234", "endereço", "email@gmail.com");
         Conta conta = new Conta(12345L, 0002L, new BigDecimal(200), cliente, TipoContaEnum.POUPANCA);
         Transacao transacao = new Transacao(TipoTransacaoEnum.SAQUE, new BigDecimal(200), conta);
+
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(conta);
 
         sacar.execute(transacao);
 

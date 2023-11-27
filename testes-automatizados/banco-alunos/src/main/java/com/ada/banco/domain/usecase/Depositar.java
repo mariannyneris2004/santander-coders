@@ -19,9 +19,11 @@ public class Depositar {
         this.contaGateway = contaGateway;
     }
     public Transacao execute(Transacao transacao) throws Exception {
-        Conta conta = contaGateway.buscarPorId(transacao.getContaOrigem().getId());
+        if (transacao.getContaOrigem() == null){
+            Conta conta = contaGateway.buscarPorId(transacao.getContaOrigem().getId());
 
-        transacao.setContaOrigem(conta);
+            transacao.setContaOrigem(conta);
+        }
         if (transacao.getValor().compareTo(BigDecimal.ZERO) == -1 || transacao.getValor().compareTo(BigDecimal.ZERO) == 0){
             throw new Exception("Não foi possível realizar depósito.");
         }

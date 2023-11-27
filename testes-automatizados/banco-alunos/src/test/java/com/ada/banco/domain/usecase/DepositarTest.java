@@ -1,6 +1,7 @@
 package com.ada.banco.domain.usecase;
 
 import com.ada.banco.domain.gateway.ContaGateway;
+import com.ada.banco.domain.gateway.ContaRepository;
 import com.ada.banco.domain.gateway.TransacaoGateway;
 import com.ada.banco.domain.model.Cliente;
 import com.ada.banco.domain.model.Conta;
@@ -23,6 +24,9 @@ public class DepositarTest {
     private TransacaoGateway transacaoGateway;
     @Mock
     private ContaGateway contaGateway;
+    @Mock
+    private ContaRepository contaRepository;
+
     @InjectMocks
     Depositar depositar;
     @Test
@@ -58,12 +62,18 @@ public class DepositarTest {
         Depositar depositar = new Depositar(transacaoGateway, contaGateway);
         Cliente cliente = new Cliente("Marianny", "123", "1234", "endereço", "email@gmail.com");
         Conta conta = new Conta(12345L, 0002L, BigDecimal.ZERO, cliente, TipoContaEnum.POUPANCA);
+        conta.setId(1L);
         Transacao transacao = new Transacao(TipoTransacaoEnum.DEPOSITO, new BigDecimal(500), conta);
+        transacao.setId(1L);
 
-        depositar.execute(transacao);
+        Mockito.when(contaGateway.buscarPorId(transacao.getContaOrigem().getId())).thenReturn(conta);
 
-        Assertions.assertAll(() -> Assertions.assertEquals(new BigDecimal(500), conta.getSaldo()));
+        Transacao transacaoDeposito = depositar.execute(transacao);
 
-        Mockito.verify(contaGateway, Mockito.times(1)).salvar(conta);
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(new BigDecimal(500), transacaoDeposito.getContaOrigem().getSaldo()),
+                () -> Mockito.verify(contaGateway, Mockito.times(1)).salvar(conta)
+        );
     }
+
 }
